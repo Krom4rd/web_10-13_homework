@@ -2,8 +2,9 @@
 
 {% block content %}
 
-<h1 class="autor-full-name">Author: {{author.full_name}}</h1>
-<p class="author-born-date">Born date: {{author.born_date}}</p>
-<p class="author-born-location">Born location: {{author.born_location}}</p>
+<h1 class="autor-full-name">Author: <kbd>{{author.full_name}}</kbd></h1>
+<p class="author-born-date">Born date: <kbd>{{author.born_date}}</kbd></p>
+<p class="author-born-location">Born location: <kbd>{{author.born_location}}</kbd></p>
+<p class="author-description">Description: <kbd>"{{author.description}}"</kbd></p>
 
 {% endblock %}

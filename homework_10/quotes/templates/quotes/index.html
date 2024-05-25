@@ -34,24 +34,46 @@
     {% for quote in quotes %}
     <ul>
         <li style="list-style-type: none">
-            {% if not quote.done %}
+            {% if quote.done %} 
             <div class="quote_container" >
-                <h4 class="description">"{{ quote.description }}"</h4>
-                <p class="quote_tags">Tags: {{ quote.tags|tags }}</p>
-                
-                <p class="quote_author">by: {{ quote.author|author }}<a class="author-details-href" href="{% url 'quotes:author_detail' quote.author|author_id %}">(about)</a></p>
-                <a class="outline" href="{% url 'quotes:detail' quote.id %}" role="button" > {{ quote.description }} </a>
-                {% if request.user == quote.user %}
+                <div class="quote-discriotion-container">
+                    <a class="description" href="{% url 'quotes:detail' quote.id %}">"{{ quote.description }}"</a>
+                    {% if request.user == quote.user %}
                     <a class="quote_update_button" href="{% url 'quotes:quote_update' quote.id %}" role="button">UPDATE</a>
-                    <a class="mark_down_quote" href="{% url 'quotes:set_done' quote.id %}" role="button" > Mark Done </a>
+                    <a class="quote-hide-button" href="{% url 'quotes:detail' quote.id %}" role="button" class="secondary"><p>Hide from everyone</p></a>
+                    {% endif %}
+                </div>
+                <div>
+                    <p class="quote_tags">Tags: {{ quote.tags|tags }}</p>
+                </div>
+                <div class="quote-autor-info">
+                    <p class="quote_author">by: {{ quote.author|author }}<a class="author-details-href" href="{% url 'quotes:author_detail' quote.author|author_id %}">(about)</a></p>
+                    {% if request.user == quote.user %}
                     <button class="delete_quote" data-quote-id="{{ quote.id }}" onclick="confirmDelete(this.dataset.quoteId)">Delete quote</button>
-                    {% comment %}  {% endcomment %}
-
-                {% endif %}
-                {% else %}
-                <a href="{% url 'quotes:detail' quote.id %}" role="button" class="secondary"><s>{{ quote.name }}</s></a>
-                
-            </div>
+                    {% endif %}
+                </div>
+            </div>    
+            {% else %}
+                {% if request.user == quote.user %}
+                <div class="quote_container" >
+                    <div class="quote-discriotion-container">
+                        <a class="description" href="{% url 'quotes:detail' quote.id %}">"{{ quote.description }}"</a>
+                        {% if request.user == quote.user %}
+                        <a class="quote_update_button" href="{% url 'quotes:quote_update' quote.id %}" role="button">UPDATE</a>
+                        <a class="mark_down_quote" href="{% url 'quotes:set_done' quote.id %}" role="button" > Post for all </a>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p class="quote_tags">Tags: {{ quote.tags|tags }}</p>
+                    </div>
+                    <div class="quote-autor-info">
+                        <p class="quote_author">by: {{ quote.author|author }}<a class="author-details-href" href="{% url 'quotes:author_detail' quote.author|author_id %}">(about)</a></p>
+                        {% if request.user == quote.user %}
+                        <button class="delete_quote" data-quote-id="{{ quote.id }}" onclick="confirmDelete(this.dataset.quoteId)">Delete quote</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %} 
             {% endif %}
         </li>
     </ul>

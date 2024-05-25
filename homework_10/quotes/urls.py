@@ -4,7 +4,8 @@ from . import views
 app_name = 'quotes'
 
 urlpatterns = [
-    path('', views.main, name='main'),
+    path('', views.index, name='index'),
+    path('index/', views.index, name='index'),
     path('author/', views.author, name='author'),
     path('author_detail/<int:author_id>', views.author_datail, name='author_detail'),
     path('tag/', views.tag, name='tag'),

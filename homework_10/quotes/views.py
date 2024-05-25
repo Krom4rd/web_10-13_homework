@@ -1,22 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from .forms import TagForm, QuoteForm, AuthorForm
 from .models import Tag, Quote, Author
 
-# def user_quote_rights(request, quote_id):
-#     def decorator(*args,**quargs):
-
-#     if request.user.id == Quote.objects.get(pk=quote_id):
-#         return decorator(foo)
-
-
-def main(request):
-    # notes = Note.objects.filter(user=request.user).all() if request.user.is_authenticated else []
+def index(request):
     quotes = Quote.objects.filter().all()
     return render(request, 'quotes/index.html', {"quotes": quotes})
+
+class UpdateQuote(UpdateView):
+    model = Quote
+    fields = ["description"]
+    template_name_suffix = "_update_form"
+    success_url = reverse_lazy('quotes:index')
 
 def tag(request):
     if request.method == 'POST':
@@ -25,7 +23,7 @@ def tag(request):
             tag = form.save(commit=False)
             tag.user = request.user
             tag.save()
-            return redirect(to='quotes:main')
+            return redirect(to='quotes:index')
         else:
             return render(request, 'quotes/tag.html', {'form': form})
 
@@ -41,13 +39,13 @@ def detail(request, quote_id):
 @login_required
 def set_done(request, quote_id):
     Quote.objects.filter(pk=quote_id, user=request.user).update(done=True)
-    return redirect(to='quotes:main')
+    return redirect(to='quotes:index')
 
 
 @login_required
 def delete_quote(request, quote_id):
     Quote.objects.get(pk=quote_id, user=request.user).delete()
-    return redirect(to='quotes:main')
+    return redirect(to='quotes:index')
 
 def search_by_tag(request, tag_name):
     quotes = Quote.objects.filter(tags__name=tag_name)
@@ -61,7 +59,7 @@ def author(request):
             new_author.user = request.user
             new_author.save()
 
-            return redirect(to='quotes:main')
+            return redirect(to='quotes:index')
         else:
             return render(request, 'quotes/author.html', {'form': form})
 
@@ -87,7 +85,7 @@ def quote(request):
                 new_quote.author.add(author)
 
 
-            return redirect(to='quotes:main')
+            return redirect(to='quotes:index')
         else:
             return render(request, 'quotes/quote.html', {"tags": tags, "authors": authors, 'form': form})
 
@@ -96,18 +94,9 @@ def quote(request):
 def author_datail(request, author_id):
 
     author = get_object_or_404(Author, pk = author_id)
-    print("%" * 40)
-    print(author_id, type(author_id))
-    print("%" * 40)
-    print(author, type(author), author.born_date)
     return render(request, "quotes/author_detail.html", {"author": author})
 
 
-class UpdateQuote(UpdateView):
-    model = Quote
-    fields = ["description"]
-    template_name_suffix = "_update_form"
-    success_url = reverse_lazy("index")
 
 
 

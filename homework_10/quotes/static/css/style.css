@@ -14,44 +14,69 @@
     box-shadow: 2px 2px 3px #333333;
 }
 
+.quote-discriotion-container{
+    display: flex;
+}
+
 .description {
     display: block;
     margin-top: 2px;
     margin-bottom: 2px;
     margin-left: 10px;
     margin-right: 10px;
+    max-width: 85%;
     font-size: large;
     font-style: italic;
+    color: #000000;
+    
 }
 
 .mark_down_quote {
+    height: 25px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    background-color: #7CA3E6;
+}
+
+.quote_update_button {
+    height: 25px;
     margin-top: 10px;
     padding: 2px 5px;
     border-radius: 5px;
     color: white;
     font-size: small;
     background-color: #7CA3E6;
+}
+
+.quote-hide-button {
+    height: 25px;
+    margin-top: 10px;
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    background-color: #3f3f3f;
+
+}
+
+.quote-autor-info {
+    display: flex;
 }
 
 .delete_quote {
+    height: 25px;
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: 80%;
     padding: 2px 5px;
     border-radius: 5px;
     color: white;
     font-size: small;
-    background-color: #000000;
-}
-
-.outline {
-    margin-top: 10px;
-    margin-left: 10px;
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    font-size: small;
-    background-color: #7CA3E6;
-
+    background-color: #ff0000;
 }
 
 .quote_tags {
@@ -64,8 +89,8 @@
 }
 
 .quote_author {
-
-    display: block;
+    white-space: nowrap;
+    max-width: 80%;
     margin-top: 2px;
     margin-bottom: 2px;
     margin-left: 10px;
@@ -73,11 +98,34 @@
     font-size: large;
 }
 
-.quote_update_button {
-    margin-top: 10px;
-    padding: 2px 5px;
+
+
+.author-fullname-input {
+    border: #000000;
     border-radius: 5px;
-    color: white;
-    font-size: small;
-    background-color: #7CA3E6;
+
+}
+
+
+.author-form {
+    display: flex;
+    font-size: larger;
+}
+
+.author-fullname-input {
+    margin-left: 20px;
+}
+
+.author-born-location-input {
+    margin-left: 20px;
+}
+
+.author-description-input {
+    margin-left: 20px;
+    font-size: larger;
+}
+
+.author-born-date-input {
+    margin-left: 50px;
+
 }
