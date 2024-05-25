@@ -1,0 +1,18 @@
+{% extends "quotes/base.html" %} {% load extract_tags %} 
+
+{% block content %}
+
+<p >Description: <kbd>`{{quotes.description}}`</kbd></p>
+<p>Time of creation: <kbd>{{quotes.created}}</kbd></p>
+<p>Author: <kbd>{{quotes.author|author}}</kbd></p>
+{% if not quote.done %}
+<p>
+  Status:
+  <ins>Completed</ins>
+</p>
+{% else %}
+<p>Status: <kbd>Not implemented</kbd></p>
+{% endif %}
+<p>Tags: <kbd> {{ quotes.tags|tags }} </kbd></p>
+
+{% endblock %}

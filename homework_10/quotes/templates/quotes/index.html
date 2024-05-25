@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Organizer</title>
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}/">
+</head>
+<body>
+<main class="container">
+    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+        {% if user.is_authenticated %}
+        <ul>
+            <li><a href="{% url 'quotes:quote' %}" role="button">Add Quote</a></li>
+            <li><a href="{% url 'quotes:tag' %}" role="button">Add Tag</a></li>
+            <li><a href="{% url 'quotes:author' %}" role="button">Add Author </a></li>
+        </ul>
+        <ul>
+            <li>Welcome <b>{{ user.username }}!</b></li>
+            <li><a href="{% url 'users:logout' %}" role="button">Logout</a></li>
+        </ul>
+        {% else %}
+        <ul>
+            <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
+            <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
+        </ul>
+        {% endif %}
+    </nav>
+    
+    {% load extract_tags %} 
+    {% for quote in quotes %}
+    <ul>
+        <li style="list-style-type: none">
+            {% if not quote.done %}
+            <div class="quote_container" >
+                <h4 class="description">"{{ quote.description }}"</h4>
+                <p class="quote_tags">Tags: {{ quote.tags|tags }}</p>
+                
+                <p class="quote_author">by: {{ quote.author|author }}<a class="author-details-href" href="{% url 'quotes:author_detail' quote.author|author_id %}">(about)</a></p>
+                <a class="outline" href="{% url 'quotes:detail' quote.id %}" role="button" > {{ quote.description }} </a>
+                {% if request.user == quote.user %}
+                    <a class="quote_update_button" href="{% url 'quotes:quote_update' quote.id %}" role="button">UPDATE</a>
+                    <a class="mark_down_quote" href="{% url 'quotes:set_done' quote.id %}" role="button" > Mark Done </a>
+                    <button class="delete_quote" data-quote-id="{{ quote.id }}" onclick="confirmDelete(this.dataset.quoteId)">Delete quote</button>
+                    {% comment %}  {% endcomment %}
+
+                {% endif %}
+                {% else %}
+                <a href="{% url 'quotes:detail' quote.id %}" role="button" class="secondary"><s>{{ quote.name }}</s></a>
+                
+            </div>
+            {% endif %}
+        </li>
+    </ul>
+    {% endfor %}
+</main>
+</body>
+</html>
+
