@@ -1,6 +1,14 @@
 from datetime import date
 
-from django.forms import ModelForm, CharField, TextInput, DateField, DateTimeInput, SelectDateWidget
+from django.forms import (ModelForm,
+                        CharField,
+                        TextInput,
+                        DateField,
+                        SelectDateWidget,
+                        ModelMultipleChoiceField,
+                        CheckboxSelectMultiple,
+                        Form
+                        )
 
 from .models import Tag, Quote, Author
 
@@ -17,7 +25,6 @@ class TagForm(ModelForm):
         
 class QuoteForm(ModelForm):
 
-    # name = CharField(min_length=5, max_length=50, required=True, widget=TextInput())
     description = CharField(min_length=10, required=True, widget=TextInput())
 
     class Meta:
@@ -30,10 +37,18 @@ class QuoteForm(ModelForm):
 class AuthorForm(ModelForm):
 
     full_name = CharField(min_length=5, max_length=100, required=True, widget=TextInput())
-    born_date = DateField(widget=SelectDateWidget(years=range(1700, int(date.today().strftime("%Y"))+1),empty_label=("Select year","Select month","Select day")))
+    born_date = DateField(widget=SelectDateWidget(years=range(1700, int(date.today().strftime("%Y"))+1), empty_label=("Select year","Select month","Select day")))
     born_location = CharField(min_length=6, max_length=255, required=True, widget=TextInput())
     description = CharField(widget=TextInput())
 
     class Meta:
         model = Author
         fields = ['full_name', 'born_date', 'born_location', 'description']
+
+class AddTagForQuote(Form):
+
+    tags = ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=CheckboxSelectMultiple)
+
+    class Meta:
+        model = Quote
+        fieldds = ['tags']
