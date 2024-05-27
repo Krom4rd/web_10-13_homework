@@ -5,7 +5,7 @@
 <p >Description: <kbd>`{{quotes.description}}`</kbd></p>
 <p>Time of creation: <kbd>{{quotes.created}}</kbd></p>
 <p>Author: <kbd>{{quotes.author|author}}</kbd></p>
-{% if not quote.done %}
+{% if quote.done %}
 <p>
   Status:
   <ins>Completed</ins>

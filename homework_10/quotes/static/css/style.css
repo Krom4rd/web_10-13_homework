@@ -15,14 +15,13 @@
 }
 
 .quote-discriotion-container{
+    margin-left: 20px;
     display: flex;
 }
 
 .description {
     display: block;
     margin-top: 2px;
-    margin-bottom: 2px;
-    margin-left: 10px;
     margin-right: 10px;
     max-width: 85%;
     font-size: large;
@@ -65,6 +64,7 @@
 }
 
 .quote-autor-info {
+    margin-left: 20px;
     display: flex;
 }
 
@@ -79,21 +79,9 @@
     background-color: #ff0000;
 }
 
-.quote_tags {
-    display: block;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: large;
-}
-
 .quote_author {
     white-space: nowrap;
     max-width: 80%;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    margin-left: 10px;
     margin-right: 10px;
     font-size: large;
 }
@@ -128,4 +116,39 @@
 .author-born-date-input {
     margin-left: 50px;
 
+}
+
+/* Tags */
+.tag_container {
+    margin-left: 20px;
+    display: flex;
+}
+
+.quote_tags {
+    display: block;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: large;
+}
+
+.quote-add-tag-button {
+    height: 25px;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    background-color: #7CA3E6;
+}
+
+.search-by-tag-button {
+    height: 25px;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    background-color: #7CA3E6;
 }

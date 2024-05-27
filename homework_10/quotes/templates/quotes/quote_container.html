@@ -1,0 +1,60 @@
+{% load extract_tags %} 
+{% for quote in quotes %}
+<ul>
+    <li style="list-style-type: none">
+        {% if quote.done %} 
+        <div class="quote_container" >
+            <div class="quote-discriotion-container">
+                <a class="description" href="{% url 'quotes:detail' quote.id %}">"{{ quote.description }}"</a>
+                {% if request.user == quote.user %}
+                <a class="quote_update_button" href="{% url 'quotes:quote_update' quote.id %}" role="button">UPDATE</a>
+                <a class="quote-hide-button" href="{% url 'quotes:quote_hide' quote.id %}" role="button" class="secondary"><p>Hide from everyone</p></a>
+                {% endif %}
+            </div>
+            <div class="tag_container">
+                <p>Tags: </p>
+                {% for tag in quote.tags|tags_list %}
+                    <a class="search-by-tag-button" href="{%url 'quotes:search_by_tag' tag %}" role="button">{{ tag }}</a>
+                {% endfor %}
+                {% if request.user == quote.user %}
+                <a class="quote-add-tag-button" href="{% url 'quotes:quote_add_tag' quote.id %}" role="button">Add Tag</a>
+                {% endif %}
+            </div>
+            <div class="quote-autor-info">
+                <p class="quote_author">by: {{ quote.author|author }}<a class="author-details-href" href="{% url 'quotes:author_detail' quote.author|author_id %}">(about)</a></p>
+                {% if request.user == quote.user %}
+                <button class="delete_quote" data-quote-id="{{ quote.id }}" onclick="confirmDelete(this.dataset.quoteId)">Delete</button>
+                {% endif %}
+            </div>
+        </div>    
+        {% else %}
+            {% if request.user == quote.user %}
+            <div class="quote_container" >
+                <div class="quote-discriotion-container">
+                    <a class="description" href="{% url 'quotes:detail' quote.id %}">"{{ quote.description }}"</a>
+                    {% if request.user == quote.user %}
+                    <a class="quote_update_button" href="{% url 'quotes:quote_update' quote.id %}" role="button">UPDATE</a>
+                    <a class="mark_down_quote" href="{% url 'quotes:set_done' quote.id %}" role="button" > Post for all </a>
+                    {% endif %}
+                </div>
+                <div class="tag_container">
+                    <p>Tags: </p>
+                    {% for tag in quote.tags|tags_list %}
+                        <a class="search-by-tag-button" href="{%url 'quotes:search_by_tag' tag %}" role="button">{{ tag }}</a>
+                    {% endfor %}
+                    {% if request.user == quote.user %}
+                    <a class="quote-add-tag-button" href="{% url 'quotes:quote_add_tag' quote.id %}" role="button">Add Tag</a>
+                    {% endif %}
+                </div>
+                <div class="quote-autor-info">
+                    <p class="quote_author">by: {{ quote.author|author }}<a class="author-details-href" href="{% url 'quotes:author_detail' quote.author|author_id %}">(about)</a></p>
+                    {% if request.user == quote.user %}
+                    <button class="delete_quote" data-quote-id="{{ quote.id }}" onclick="confirmDelete(this.dataset.quoteId)">Delete</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %} 
+        {% endif %}
+    </li>
+</ul>
+{% endfor %}

@@ -2,11 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy, reverse
+from django.contrib import messages
 
-from .forms import TagForm, QuoteForm, AuthorForm
+
+from .forms import TagForm, QuoteForm, AuthorForm, QuoteAddTag
 from .models import Tag, Quote, Author
 
-def index(request):
+def main(request):
     quotes = Quote.objects.filter().all()
     return render(request, 'quotes/index.html', {"quotes": quotes})
 
@@ -14,7 +16,20 @@ class UpdateQuote(UpdateView):
     model = Quote
     fields = ["description"]
     template_name_suffix = "_update_form"
-    success_url = reverse_lazy('quotes:index')
+    success_url = reverse_lazy('quotes:main')
+
+def quote_add_tag(request, quote_id):
+    quote = get_object_or_404(Quote, pk=quote_id)
+    tags = Tag.objects.all()
+    if request.method == 'POST':
+        form = QuoteAddTag(request.POST)
+        if form.is_valid():
+            new_tag = form.cleaned_data['new_tag'][0]
+            quote.tags.add(new_tag)
+            return redirect(to='quotes:main')
+    else:
+        form = QuoteAddTag()
+    return render(request, 'quotes/quote_add_tag.html', {'form': form, 'tags': tags, 'quotes': quote})
 
 def tag(request):
     if request.method == 'POST':
@@ -23,12 +38,15 @@ def tag(request):
             tag = form.save(commit=False)
             tag.user = request.user
             tag.save()
-            return redirect(to='quotes:index')
+            return redirect(to='quotes:main')
         else:
             return render(request, 'quotes/tag.html', {'form': form})
 
     return render(request, 'quotes/tag.html', {'form': TagForm()})
 
+def search_by_tag(request, tag_name):
+    quotes = Quote.objects.filter(tags__name=tag_name).all()
+    return render(request, 'quotes/search_by_tag.html', {'quotes': quotes})
 
 def detail(request, quote_id):
     quotes = get_object_or_404(Quote, pk=quote_id)
@@ -39,17 +57,17 @@ def detail(request, quote_id):
 @login_required
 def set_done(request, quote_id):
     Quote.objects.filter(pk=quote_id, user=request.user).update(done=True)
-    return redirect(to='quotes:index')
+    return redirect(to='quotes:main')
 
+@login_required
+def quote_hide(request, quote_id):
+    Quote.objects.filter(pk=quote_id, user=request.user).update(done=False)
+    return redirect(to='quotes:main')
 
 @login_required
 def delete_quote(request, quote_id):
     Quote.objects.get(pk=quote_id, user=request.user).delete()
-    return redirect(to='quotes:index')
-
-def search_by_tag(request, tag_name):
-    quotes = Quote.objects.filter(tags__name=tag_name)
-    return render(request, 'search_by_tag.html', {'quotes': quotes, 'tag_name': tag_name})
+    return redirect(to='quotes:main')
 
 def author(request):
     if request.method == 'POST':
@@ -59,12 +77,11 @@ def author(request):
             new_author.user = request.user
             new_author.save()
 
-            return redirect(to='quotes:index')
+            return redirect(to='quotes:main')
         else:
             return render(request, 'quotes/author.html', {'form': form})
 
     return render(request, 'quotes/author.html', {'form': AuthorForm()})
-
 
 def quote(request):
     # tags = Tag.objects.filter(user=request.user).all()
@@ -85,7 +102,7 @@ def quote(request):
                 new_quote.author.add(author)
 
 
-            return redirect(to='quotes:index')
+            return redirect(to='quotes:main')
         else:
             return render(request, 'quotes/quote.html', {"tags": tags, "authors": authors, 'form': form})
 

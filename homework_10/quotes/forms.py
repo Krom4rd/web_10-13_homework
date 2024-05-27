@@ -1,10 +1,15 @@
 from datetime import date
 
-from django.forms import ModelForm, CharField, TextInput, DateField, DateTimeInput, SelectDateWidget
+from django.forms import (Form,
+                        ModelForm,
+                        CharField,
+                        TextInput,
+                        DateField,
+                        ModelMultipleChoiceField,
+                        SelectMultiple,
+                        SelectDateWidget)
 
 from .models import Tag, Quote, Author
-
-
 
 
 class TagForm(ModelForm):
@@ -17,7 +22,6 @@ class TagForm(ModelForm):
         
 class QuoteForm(ModelForm):
 
-    # name = CharField(min_length=5, max_length=50, required=True, widget=TextInput())
     description = CharField(min_length=10, required=True, widget=TextInput())
 
     class Meta:
@@ -37,3 +41,7 @@ class AuthorForm(ModelForm):
     class Meta:
         model = Author
         fields = ['full_name', 'born_date', 'born_location', 'description']
+
+class QuoteAddTag(Form):
+
+    new_tag = ModelMultipleChoiceField(queryset=Tag.objects.all(), required=False, widget=SelectMultiple())

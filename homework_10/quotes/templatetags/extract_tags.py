@@ -22,6 +22,9 @@ def author(quote_authors):
 def tags(quote_tags):
     return ', '.join([str(name) for name in quote_tags.all()])
 
+def tags_list(quote_tags):
+    return [str(name) for name in quote_tags.all()]
+
 def author_id(quote_authors):
     author_id = quote_authors.all()[0].id
     return author_id
@@ -32,3 +35,4 @@ register.filter('author', author)
 
 register.filter('tags', tags)
 
+register.filter('tags_list', tags_list)
