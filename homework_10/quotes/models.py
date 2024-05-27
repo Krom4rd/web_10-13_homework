@@ -40,5 +40,8 @@ class Quote(models.Model):
     author = models.ManyToManyField(Author)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
+    def add_tag(self, Tag:Tag):
+        self.tags = models.ManyToManyField(Tag)
+
     def __str__(self):
         return f"{self.author}"

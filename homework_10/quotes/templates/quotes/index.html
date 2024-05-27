@@ -65,6 +65,7 @@
                     </div>
                     <div>
                         <p class="quote_tags">Tags: {{ quote.tags|tags }}</p>
+                        <a class="add-tag-for-quote-button" href="{% url 'quotes:quote_add_tag' quote.id %}" role="button"> Add tag </a>
                     </div>
                     <div class="quote-autor-info">
                         <p class="quote_author">by: {{ quote.author|author }}<a class="author-details-href" href="{% url 'quotes:author_detail' quote.author|author_id %}">(about)</a></p>
