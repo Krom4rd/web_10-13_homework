@@ -17,6 +17,9 @@
             <li><a href="{% url 'quotes:quote' %}" role="button">Add Quote</a></li>
             <li><a href="{% url 'quotes:tag' %}" role="button">Add Tag</a></li>
             <li><a href="{% url 'quotes:author' %}" role="button">Add Author </a></li>
+            {% if user.is_staff %}
+            <li><a href="{% url 'quotes:migrate_from_mongo_to_postger' %}" role="button">Migrate dbs</a></li>
+            {% endif %}
         </ul>
         <ul>
             <li>Welcome <b>{{ user.username }}!</b></li>
@@ -27,6 +30,7 @@
             <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
             <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
         </ul>
+        
         {% endif %}
     </nav>
     {% load extract_tags %} 

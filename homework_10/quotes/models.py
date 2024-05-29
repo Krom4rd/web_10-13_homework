@@ -1,10 +1,11 @@
+from typing import Any
 from django.db import models
 from django.contrib.auth.models import User
 
 
 # Create your models here.
 class Tag(models.Model):
-    name = models.CharField(max_length=25, null=False)
+    name = models.CharField(max_length=70, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     class Meta:
@@ -20,7 +21,7 @@ class Author(models.Model):
     full_name = models.CharField(max_length=100)
     born_date = models.DateTimeField()
     born_location = models.CharField(max_length=255)
-    description = models.CharField()
+    description = models.CharField(max_length = 2704)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     class Meta:
