@@ -6,12 +6,41 @@
     color: green;
 }
 
-.quote_container {
+.wrapper{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.main-content{
+    padding-left: 10px;
+    padding-right: 40px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.quote-container {
     padding: 10px;
-    margin-bottom: 30px;
+    margin-top: 15px;
     border: 1px solid #333333;
     border-radius: 5px;
     box-shadow: 2px 2px 3px #333333;
+}
+
+.top-ten-tags-container{
+    margin-left: 20px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px #333333;
+    width: 320px;
+}
+
+.footer{
+    padding-top: 10px;
 }
 
 .quote-discriotion-container{
@@ -30,48 +59,13 @@
     
 }
 
-.mark_down_quote {
-    height: 25px;
-    margin-top: 10px;
-    margin-left: 10px;
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    font-size: small;
-    background-color: #7CA3E6;
-}
-
-.quote_update_button {
-    height: 25px;
-    margin-top: 10px;
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    font-size: small;
-    background-color: #7CA3E6;
-}
-
-.quote-hide-button {
-    height: 25px;
-    margin-top: 10px;
-    margin-left: 5px;
-    padding: 2px 5px;
-    border-radius: 5px;
-    color: white;
-    font-size: small;
-    background-color: #3f3f3f;
-
-}
-
 .quote-autor-info {
     margin-left: 20px;
     display: flex;
 }
 
-.delete_quote {
+.delete-quote {
     height: 25px;
-    margin-top: 10px;
-    margin-left: 80%;
     padding: 2px 5px;
     border-radius: 5px;
     color: white;
@@ -79,21 +73,12 @@
     background-color: #ff0000;
 }
 
-.quote_author {
+.quote-author {
     white-space: nowrap;
     max-width: 80%;
     margin-right: 10px;
     font-size: large;
 }
-
-
-
-.author-fullname-input {
-    border: #000000;
-    border-radius: 5px;
-
-}
-
 
 .author-form {
     display: flex;
@@ -119,19 +104,19 @@
 }
 
 /* Tags */
-.tag_container {
+.tag-container {
     margin-left: 20px;
     display: flex;
 }
 
-.quote_tags {
+.quote-tags {
     display: block;
     margin-left: 10px;
     margin-right: 10px;
     font-size: large;
 }
 
-.quote-add-tag-button {
+.button {
     height: 25px;
     margin-top: 5px;
     margin-left: 5px;
@@ -142,7 +127,7 @@
     background-color: #7CA3E6;
 }
 
-.search-by-tag-button {
+.quote-hide-button {
     height: 25px;
     margin-top: 5px;
     margin-left: 5px;
@@ -150,5 +135,25 @@
     border-radius: 5px;
     color: white;
     font-size: small;
-    background-color: #7CA3E6;
+    background-color: #272727;
 }
+
+.add-tag-button {
+    height: 25px;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    background-color: #3a82ff; 
+}
+
+.li{
+    list-style-type: none
+}
+
+.h2-top-tags{
+    padding-left: 15px;
+}
+

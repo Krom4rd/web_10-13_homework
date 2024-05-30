@@ -1,12 +1,12 @@
 async function confirmDelete(id) {
     const result = await Swal.fire({
-        title: 'Ви впевнені?',
-        text: 'Цю дію не можна скасувати!',
+        title: 'Are you sure?',
+        text: 'This action cannot be undone!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#DD6B55',
-        confirmButtonText: 'Так, видалити!',
-        cancelButtonText: 'Скасувати'
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
     });
 
     if (result.isConfirmed) {

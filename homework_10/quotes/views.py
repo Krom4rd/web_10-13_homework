@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy
+from django.db.models import Count
 from django.db.utils import OperationalError, IntegrityError
 
 from .connect_mongo import authors_from_mongodb, quotes_from_mongodb
@@ -11,8 +13,25 @@ from .models import Tag, Quote, Author
 
 
 def main(request):
-    quotes = Quote.objects.filter().all()
-    return render(request, 'quotes/index.html', {"quotes": quotes})
+    quotes_list = Quote.objects.all().order_by('-created')
+    number_of_quotes_in_page = 10
+    paginator = Paginator(quotes_list, number_of_quotes_in_page)
+    page = request.GET.get('page')
+    top_tags = get_top_ten_tags()
+
+    try:
+        quotes = paginator.page(page)
+    except PageNotAnInteger:
+        quotes = paginator.page(1)
+    except EmptyPage:
+        quotes = paginator.page(paginator.num_pages)
+
+    context = {
+        'top_tags': top_tags,
+        'quotes': quotes
+    }
+
+    return render(request, 'quotes/index.html', context=context)
 
 class UpdateQuote(UpdateView):
     model = Quote
@@ -27,7 +46,6 @@ def quote_add_tag(request, quote_id):
         form = QuoteAddTag(request.POST)
         if form.is_valid():
             new_tag = form.cleaned_data['new_tag'][0]
-            print(new_tag,type(new_tag))
             quote.tags.add(new_tag)
             return redirect(to='quotes:main')
     else:
@@ -48,14 +66,25 @@ def tag(request):
     return render(request, 'quotes/tag.html', {'form': TagForm()})
 
 def search_by_tag(request, tag_name):
-    quotes = Quote.objects.filter(tags__name=tag_name).all()
+    quotes_list = Quote.objects.filter(tags__name=tag_name).all()
+    number_of_quotes_in_page = 10
+    paginator = Paginator(quotes_list, number_of_quotes_in_page)
+    page = request.GET.get('page')
+
+    try:
+        quotes = paginator.page(page)
+    except PageNotAnInteger:
+        quotes = paginator.page(1)
+    except EmptyPage:
+        quotes = paginator.page(paginator.num_pages)
+
     return render(request, 'quotes/search_by_tag.html', {'quotes': quotes})
 
 def detail(request, quote_id):
+    '''render quote-detail page'''
     quotes = get_object_or_404(Quote, pk=quote_id)
     authors = Author.objects.all()
     return render(request, 'quotes/detail.html', {"quotes": quotes, "authors": authors})
-
 
 @login_required
 def set_done(request, quote_id):
@@ -115,6 +144,13 @@ def author_datail(request, author_id):
     author = get_object_or_404(Author, pk = author_id)
     return render(request, "quotes/author_detail.html", {"author": author})
 
+def get_top_ten_tags():
+    '''return 10 top tags'''
+    top_tags = Tag.objects.annotate(num_quotes=Count('quote'))\
+                          .order_by('-num_quotes')[:10]
+    return top_tags
+
+# Functions for migrate data from mongo(Hjmework 9)
 
 def authors_seeds_from_mongodb(*args,**kwargs):
     data = authors_from_mongodb()
