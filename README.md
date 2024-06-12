@@ -1,4 +1,5 @@
-# Homework 10 Django
+# Homework 13 Django 
+# Email varification, reset password, securety
 
 **Installation and launch**
 
