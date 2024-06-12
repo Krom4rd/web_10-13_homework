@@ -1,8 +1,13 @@
 from pymongo import MongoClient
+from homework_10.settings import BASE_DIR
+import environ
+
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env')
 
 
-client = MongoClient('mongodb+srv://krom4rd:t6abZEUNgL1uhHVu@oleg.qq4u8pu.mongodb.net/?retryWrites=true&w=majority&appName=Oleg')
-db = client['Homework_09']
+client = MongoClient(host=env("MONGO_CLIENT"))
+db = client[env('MONGO_DB_NAME')]
 # Mongo connect
 
 def authors_from_mongodb():

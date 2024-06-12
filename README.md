@@ -6,13 +6,19 @@
 
     python -m venv (venv_name)
 
+    venv\Scripts\activate.bat
+
 - [ ] **_Install dependencies_**
  
     pip install -r requirements.txt
 
+- [ ] **_Create .env file and fill it_**
+
+    example in env_example
+
 - [ ] **_Create and run Docker postgresql container_**
 
-    docker run --name homework_10 -p 5432:5432 -e POSTGRES_PASSWORD=password -d postgres
+    docker-compose up
     
 - [ ] **_Go to the application folder_**
 

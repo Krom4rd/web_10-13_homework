@@ -1,3 +1,5 @@
 venv/
 com.txt
 *__
+.env
+postgres-data

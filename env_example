@@ -1,0 +1,15 @@
+SECRET_KEY=django-insecure-e&ok+m007s51s*jgx*oaymi(=lasb!$u1d3@=)l2c*gp$qzp^3
+
+DATABASE_NAME=str
+DATABASE_USER=str
+DATABASE_PASSWORD=password
+DATABASE_HOST=127.0.0.1
+DATABASE_PORT=5432
+
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=int
+EMAIL_HOST_USER=str
+EMAIL_HOST_PASSWORD=str
+
+MONGO_CLIENT=str
+MONGO_DB_NAME=str
